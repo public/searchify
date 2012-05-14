@@ -10,7 +10,9 @@ VERSION = '0.3'
 setup(
     name=PACKAGE, version=VERSION,
     description="Search integration for Django with a focus on indexing",
-    packages=[ 'searchify', 'searchify.clients', 'searchify.management.commands' ],
+    packages=[ 'searchify', 'searchify.clients',
+        'searchify.management.commands',
+        'searchify.management'],
     license='MIT',
     author='James Aylett',
     author_email='james@tartarus.org',

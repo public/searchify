@@ -53,7 +53,7 @@ class Client(object):
         self.write.collection(indexname).delete()
 
     def set_alias(self, alias, indexname):
-        raise NotImplementedError("oh no not now")
+        pass
 
     def flush(self):
         pass
@@ -77,8 +77,7 @@ class IndexerClient(object):
         This is used during reindexing to direct all updates to a new index.
 
         """
-        self.suffix = suffix
-        self._set_target_name()
+        return
 
     def _set_target_name(self):
         self._target_name = personal_prefix + self.indexname + self.suffix
@@ -86,12 +85,6 @@ class IndexerClient(object):
     def create_index(self, index_settings):
         coll = self.client.write.collection(self._target_name)
         coll.config = index_settings
-
-    def set_fields(self, fields):
-        coll = self.client.write.collection(self._target_name)
-        config = coll.config
-        config['fields'] = fields
-        coll.config = config
 
     def add(self, doc, doc_type, docid):
         coll = self.client.write.collection(self._target_name)
@@ -103,3 +96,10 @@ class IndexerClient(object):
 
     def flush(self):
         pass
+
+    def set_mapping(self, typename, mapping):
+        coll = self.client.write.collection(self._target_name)
+        config = coll.config
+        config['types'][typename] = mapping
+        coll.config = config
+

@@ -84,6 +84,7 @@ class IndexerClient(object):
 
     def create_index(self, index_settings):
         coll = self.client.write.collection(self._target_name)
+        coll.checkpoint()
         coll.config = index_settings
 
     def add(self, doc, doc_type, docid):

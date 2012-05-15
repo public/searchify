@@ -33,7 +33,7 @@ class Client(object):
         return IndexerClient(self, indexname)
 
     def get_searcher(self, indexname):
-        return self.read
+        return self.read.collection(indexname)
 
     def all_indexes(self):
         res = {}
@@ -101,6 +101,8 @@ class IndexerClient(object):
     def set_mapping(self, typename, mapping):
         coll = self.client.write.collection(self._target_name)
         config = coll.config
-        config['types'][typename] = mapping
+        config['types'].setdefault(typename, {}).setdefault("patterns",
+                mapping.items())
+        config['types'][typename]['patterns'].extend(config['default_type']['patterns'])
         coll.config = config
 
